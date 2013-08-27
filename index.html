@@ -1,0 +1,351 @@
+OCTYPE html>
+<html>
+  <head>
+    <title>System Settings API</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <script src='https://www.w3.org/Tools/respec/respec-w3c-common' class='remove'></script>
+    <script class="remove">
+      var respecConfig = {
+          specStatus:           "ED",
+          shortName:            "settings",
+          publishDate:          "",
+          previousPublishDate:  "",
+          previousMaturity:     "",
+          edDraftURI:           "http://www.w3.org/2012/sysapps/settings/",
+          // lcEnd:                "",
+          crEnd:                "",
+          editors:  [
+              { name: "Jonathan Jeon (전종홍)",
+                company: "ETRI",
+                companyURL: "http://www.etri.re.kr" },
+              { name: "Seungyun Lee (이승윤)",
+                company: "ETRI",
+                companyURL: "http://www.etri.re.kr/" },              
+              { name: "Christophe Dumez",
+                company: "Samsung Electronics, Co., Ltd",
+                companyURL: "http://www.samsung.com/sec" }
+          ],
+          inlineCSS:    true,
+          noIDLIn:      true,
+          extraCSS:     ["../ReSpec.js/css/respec.css"],
+          wg:           "System Applications Working Group",
+          wgURI:        "http://www.w3.org/2012/sysapps/",
+          wgPublicList: "public-sysapps",
+          wgPatentURI:  "http://www.w3.org/2004/01/pp-impl/43696/status",
+      };
+    </script>
+  </head>
+  <body>
+
+    <!-- - - - - - - - - - - - - - -  Abstract - - - - - - - - - - - - - - - -->
+    <section id="abstract">
+      This specification defines a System Level API which offers a simple interface to manage 
+      the global system-level device preferences and settings. A typical use case of the Settings API is 
+      the implementation of a certified application to access and manage the global system-level device preferences.
+    </section>
+    
+    <!-- - - - - - - - - - - - Status of this document - - - - - - - - - - - -->
+    <section id="sotd">
+      This document defines a System Level API to manage 
+      the global system-level device preferences and settings. 
+      
+      <p>If you find any issue with this specification, please
+         <a href="https://github.com/sysapps/settings-api/issues">file a
+         bug on Github</a>.
+
+    </section>
+    
+    <!-- - - - - - - - - - - - - - - Introduction  - - - - - - - - - - - - - -->
+    <section class="informative">
+      <h2>Introduction</h2>
+      <p>
+        The Settings API allows to manage (create, edit, remove, etc) the global system-level device preferences
+        stored in the system information area, and thus provides the
+        functionality needed to implement an certified application to manage said system settings.
+      <p>
+        An example of use is provided below:
+      
+      <pre class="example highlight">
+      	
+               var lock = navigator.Settings.createLock();
+				var result = lock.set({
+  					'wifi.enabled': true
+				});
+ 
+				result.onsuccess = function () {
+  					window.console.log("the settings has been changed");
+				}
+ 
+				result.onerror = function () {
+  					window.console.log("An error occure, the settings remain unchanged");
+				}
+
+      </pre>
+
+      <pre class="example highlight">
+				function handleWifi(event) {
+ 					 if (event.settingValue === true) {
+    					window.console.log("Hey! I can download that crazy heavy 4GB file")
+  					} else {
+    					window.console.log("Oh! I should stop downloading that crazy 4GB file")
+  					}
+				}
+
+				navigator.Settings.addObserver('wifi.enabled', handleWifi);
+      </pre>
+
+    </section>
+    
+    <!-- - - - - - - - - - - - - -  Conformance  - - - - - - - - - - - - - - -->
+    <section id="conformance">
+      <p>This specification defines conformance criteria that apply to a single
+      product: the <dfn>user agent</dfn> that implements the interfaces that it
+      contains.
+      
+      <p>Implementations that use ECMAScript to implement the APIs defined in
+      this specification MUST implement them in a manner consistent with the
+      ECMAScript Bindings defined in the Web IDL specification [[!WEBIDL]], as
+      this specification uses that specification and terminology.
+    </section>
+    
+    <!-- - - - - - - - - - - - - -  Terminology  - - - - - - - - - - - - - - -->
+    <section>
+      <h2>Terminology</h2>
+      <p>The <code><a
+      href="http://dev.w3.org/html5/spec/webappapis.html#eventhandler">
+      EventHandler</a></code> interface represents a callback used for event
+      handlers as defined in [[!HTML5]].
+      
+      <p>The concepts <dfn><a
+      href="http://dev.w3.org/html5/spec/webappapis.html#queue-a-task"> queue a
+      task</a></dfn> and <dfn><a
+      href="http://dev.w3.org/html5/spec/webappapis.html#fire-a-simple-event">
+      fire a simple event</a></dfn> are defined in [[!HTML5]].
+      
+      <p>The terms <dfn><a
+      href="http://dev.w3.org/html5/spec/webappapis.html#event-handlers"> event
+      handler</a></dfn> and <dfn><a
+      href="http://dev.w3.org/html5/spec/webappapis.html#event-handler-event-type">
+      event handler event types</a></dfn> are defined in [[!HTML5]].
+      
+      <p>The <dfn><a
+      href="http://dom.spec.whatwg.org/#promise">Promise</a></dfn> interface,
+      the concepts of a <a href=
+      "http://dom.spec.whatwg.org/#concept-resolver"><dfn>resolver</dfn></a>, a
+      <dfn id="dfn-fulfill-algorithm"><a
+      href="http://dom.spec.whatwg.org/#concept-resolver-fulfill"> resolver's
+      fulfill algorithm</a></dfn> and a <dfn id="dfn-reject-algorithm"><a
+      href="http://dom.spec.whatwg.org/#concept-resolver-reject"> resolver's
+      reject algorithm</a></dfn> are defined in [[DOM4]].</p>
+  
+    </section>
+
+    <!-- - - - - - - - - - - - - - Security  - - - - - - - - - - - - - - - - -->
+    <section>
+      <h2>Security and privacy considerations</h2>
+      <p>This API must be only exposed to trusted content
+      
+    </section>
+
+    <section>
+      <h2><a>Navigator</a> Interface</h2>
+       <dl title="partial interface Navigator" class="idl">
+        <dt>readonly attribute SettingsManager settings</dt>
+        <dd>
+          The object that exposes the system settings management functionality.
+        </dd>
+      </dl>
+    </section>
+    
+    <!-- - - - - - - - - SettingsManager Interface - - - - - - - - - - - - - -->
+    <section>
+      <h2><a>SettingsManager</a> Interface</h2>
+      <p>The <a>SettingsManager</a> interface exposes the system setting management
+      functionality.
+      
+    <dl title="interface SettingsManager" class="idl">
+
+    <dt>readonly attribute SettingsLock lock</dt> <dd>Provides kept in a queue of active locks functionality.</dd>
+ 
+    <dt> SettingsLock createLock ()</dt> <dd>This method makes a request for returns a SettingsLock object to safely access settings asynchronously.   It returns a new <a><code>SettingsLock</code></a></dd>
+
+    <dt> void addObserver()</dt> <dd> This method makes a request
+    to allows to bind a function to any change on a given settings by 
+    <code>settingName</code> parameter and according to the callback options
+    described in the <code>callback</code>.
+          <dl class='parameters'>
+         <dt>String settingName</dt> <dd>
+          A string specifying the name of the setting to observe.  
+         </dd> <dt>SettingsEvent callback</dt> <dd>
+          providing information about a change to the value of a setting on the device. 
+         </dd>
+     </dl>
+ 	</dd> 
+    
+    <dt> void removeObserver()</dt> <dd> This method makes a request
+    to remove a callback function that has been added with addObserver()  by
+    <code>settingName</code> parameter and according to the callback options
+    described in the <code>callback</code>.
+          <dl class='parameters'>
+         <dt>String settingName</dt> <dd>
+          The string representing the setting to stop to observe.  
+         </dd> <dt>SettingsEvent callback</dt> <dd>
+          to be removed from the callback stack. 
+         </dd>
+     </dl>
+ 	</dd>     	
+
+        <dt class="no-docs">
+          attribute EventHandler onsettingchange
+        </dt>
+        <dd>May be used to set an event handler to be called when all setting changes.</dd>
+    
+      </dl>
+
+    </section>
+
+    <!-- - - - - - - - - SettingsLock interface - - - - - - - - - - - -->
+
+	<section>
+  		<h2><a>SettingsLock</a> Interface</h2>
+
+  		<p>The <a>SettingsLock</a> interface are kept in a queue of active locks. 
+  			When a SettingsLock object is created it's placed at the end of the queue. 
+  			Calls to get/set places a request against the lock on which it's called. 
+  			Requests run asynchronously and in the order they are placed against a lock. 
+  			When the last request for a lock is run, and  the success/error event against it has been fired, 
+  			the lock is removed from the queue and the next lock start to be processed			
+  			interface represents the System settings, 
+ 		</p>
+ 		
+   <dl title="interface SettingsLock : EventTarget"
+  class="idl">
+
+    <dt>DOMRequest set()</dt> <dd>Allows to change the values of a set of settings. This method is asychronous and return a <code>DOMRequest</code>.
+        <dl class='parameters'>
+             <dt>DOMString[] settings</dt>
+             <dd>
+               The identifier of thecontaining a set of key/value pairs where each key represents the string name of a given setting
+             </dd>
+         </dl>
+        </dd>
+
+	<dt>DOMRequest get()</dt> <dd>Allows to retrieve the value of a given setting. This method is asychronous and return a <code>DOMRequest</code>.
+	        <dl class='parameters'>
+             <dt>DOMString settingName</dt>
+             <dd>
+               The string name of the setting whose value you wish to retreive
+             </dd>
+         </dl>
+        </dd>
+
+	<dt>void clear()</dt> <dd>Clears any action that have not been done yet (remember that get and set are asynchronous)
+	</dd>
+	
+       <dt class="no-docs">
+          attribute EventHandler closed
+        </dt>
+        <dd>Indicates if the lock is no longer the active lock (true) or if it's still the active lock (false)</dd>
+	
+ 	</section>
+
+    <!-- - - - - - - - - SettingsEvent interface - - - - - - - - - - - -->
+
+<section>
+  <h2><a>SettingsEvent</a> Interface</h2>
+  <p>The <a>SettingsEvent</a> interface represents events 
+  	 providing information about a change to the value of a setting on the device.
+  <dl title="interface SettingsEvent : Event"
+      class="idl">
+    <dt>DOMString settingName</dt>
+    <dd>MUST specifie the exact name of the setting that has changed.</dd>
+    <dt> DOMString settingValue</dt>
+    <dd>MUST return the setting's new value.</dd>
+  </dl>
+</section>
+
+    <!-- - - - - - - - - SettingsGlobal interface - - - - - - - - - - - -->
+
+	<section>
+  		<h2><a>SettingsGlobal</a> Interface</h2>
+  		<p>The <a>SettingsGlobal</a> interface represents the Global system settings, 
+  			containing preferences that always apply identically to all defined users. 
+  			Applications can read these but are not allowed to write; like the "Secure" settings, 
+  			these are for preferences that the user must explicitly modify through the system UI or 
+  			specialized APIs for those values.
+		</p>  
+ 		
+ 	</section>
+
+
+    <!-- - - - - - - - - SettingsSecure interface - - - - - - - - - - - -->
+
+	<section>
+  		<h2><a>SettingsSecure</a> Interface</h2>
+  		<p>The <a>SettingsSecure</a> interface represents the Secure system settings, 
+  			containing system preferences that applications can read but are not allowed to write. 
+  			These are for preferences that the user must explicitly modify through the system UI or 
+  			specialized APIs for those values, not modified directly by applications.
+       </p>
+ 		
+ 	</section>
+
+    <!-- - - - - - - - - SettingsSystem interface - - - - - - - - - - - -->
+
+	<section>
+  		<h2><a>SettingsSystem</a> Interface</h2>
+
+  		<p>The <a>SettingsSystem</a> interface represents the System settings, 
+  			containing miscellaneous system preferences. This table holds simple name/value pairs. 
+  			There are convenience functions for accessing individual settings entries.
+ 		</p>
+ 		
+ 	</section>    
+    
+    <!-- - - - - - - - - SettingsChangeEvent Interface - - - - - - - - - - - -->
+    <section>
+      <h2><a>SettingsChangeEvent</a> Interface</h2>
+      <p>The <a>SettingsChangeEvent</a> interface represents events related to
+      the set of system preference that have been simultaneously setted, resetted and/or
+      modified. Changes that are applied to the system information in batches cause a
+      <a>SettingsChangeEvent</a> with multiple system preference references to be fired,
+      whereas changes applied sequentially cause a <a>SettingsChangeEvent</a>
+      with a single system preference reference to be fired
+      <dl title="[Constructor(DOMString type, optional SettingsChangeEventInit
+      eventInitDict)]
+                 interface SettingsChangeEvent : Event"
+          class="idl">
+        <dt>readonly attribute DOMString[] setted</dt>
+        <dd>Indicates the identifier(s) of the <code>SystemPreference</code> object(s)
+        that have been setted.</dd>
+        <dt>readonly attribute DOMString[] modified</dt>
+        <dd>Indicates the identifier(s) of the <code>SystemPreference</code> object(s)
+        that have been modified.</dd>
+        <dt>readonly attribute DOMString[] resetted</dt>
+        <dd>Indicates the identifier(s) of the <code>SystemPreference</code> object(s)
+        that have been resetted.</dd>
+      </dl>
+
+      <section> <h3><a>SettingsChangeEventInit</a> Dictionary</h3>
+      <dl title="dictionary SettingsChangeEventInit : EventInit" class="idl">
+        <dt>sequence&lt;DOMString&gt; setted</dt>
+        <dd>
+        <dt>sequence&lt;DOMString&gt; modified</dt>
+        <dd>
+        <dt>sequence&lt;DOMString&gt; resetted</dt>
+        <dd>
+      </dl>
+      </section>
+    </section>
+
+    <!-- - - - - - - - - Acknowledgements - - - - - - - - - - - - - - - - - -->
+    <section>
+      <h2>Acknowledgements</h2>
+      <p>The editors would like to express their gratitude to the Mozilla B2G
+      Team for their technical guidance, implementation work and support, and
+      specially to Tantek Çelik and Gregor Wagner, the original authors of B2G
+      Contact API.</p>
+    </section>
+    
+  </body>
+</html>

@@ -257,7 +257,34 @@ navigator.Settings.addObserver('wifi.enabled', handleWifi);
   <div class='note'>
   It needs the descrition of detailed steps.
   </div>
-  
+ 
+   <section>
+    <h2>Event handlers</h2>
+    <p>The following are the <a class="internalDFN"
+    href="#dfn-eventhandler">event handlers</a> (and their corresponding <a
+    class="internalDFN" href="#dfn-eventtypes">event types</a>) that MUST be
+    supported as attributes by the <a>SettingsManager</a> object.
+    
+    <table class="simple">
+      <thead>
+        <tr>
+          <th>event handler</th>
+          <th>event name</th>
+          <th>event type</th>
+          <th>short description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong><code>onsettingchange</code></strong></td>
+          <td><code><dfn>changed</dfn></code></td>
+          <td><a><code>SettingsEvent</code></a></td>
+          <td>handles changed setting</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
 </section>
 
     <!-- - - - - - - - - SettingsLock interface - - - - - - - - - - - -->

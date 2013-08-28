@@ -89,39 +89,37 @@ Style guide to contributors:
     <section class="informative">
       <h2>Introduction</h2>
       <p>
-        The Settings API allows to manage (create, edit, remove, etc) the global system-level device preferences
+        The Settings API allows to manage the global system-level device preferences
         stored in the system information area, and thus provides the
         functionality needed to implement an certified application to manage said system settings.
       </p>
         An example of use is provided below:
       
-      <pre class="example highlight">
-      	
-               var lock = navigator.Settings.createLock();
-				var result = lock.set({
-  					'wifi.enabled': true
-				});
+      <pre class="example highlight"> 	
+var lock = navigator.Settings.createLock();
+var result = lock.set({
+  'wifi.enabled': true
+});
  
-				result.onsuccess = function () {
-  					window.console.log("the settings has been changed");
-				}
+result.onsuccess = function () {
+  window.console.log("the settings has been changed");
+}
  
-				result.onerror = function () {
-  					window.console.log("An error occure, the settings remain unchanged");
-				}
-
+result.onerror = function () {
+  window.console.log("An error occure, the settings remain unchanged");
+}
       </pre>
 
       <pre class="example highlight">
-				function handleWifi(event) {
- 					 if (event.settingValue === true) {
-    					window.console.log("Hey! I can download that crazy heavy 4GB file")
-  					} else {
-    					window.console.log("Oh! I should stop downloading that crazy 4GB file")
-  					}
-				}
+function handleWifi(event) {
+  if (event.settingValue === true) {
+     window.console.log("Hey! I can download that crazy heavy 4GB file")
+  } else {
+     window.console.log("Oh! I should stop downloading that crazy 4GB file")
+  }
+}
 
-				navigator.Settings.addObserver('wifi.enabled', handleWifi);
+navigator.Settings.addObserver('wifi.enabled', handleWifi);
       </pre>
 
     </section>
@@ -232,7 +230,35 @@ Style guide to contributors:
         <dd>May be used to set an event handler to be called when all setting changes.</dd>
     
       </dl>
-    </section>
+
+  <section>
+  <h3>Steps</h3>
+  
+  <p> The <dfn><code>createLock</code></dfn> method when invoked MUST run the
+  following steps:
+    <ol>
+	<li>@@TBD
+	</ol>
+
+  <p> The <dfn><code>addObserver</code></dfn> method when invoked MUST run the
+  following steps:
+    <ol>
+	<li>@@TBD
+	</ol>
+
+  <p> The <dfn><code>removeObserver</code></dfn> method when invoked MUST run the
+  following steps:
+    <ol>
+	<li>@@TBD
+	</ol>
+
+	</section>
+
+  <div class='note'>
+  It needs the descrition of detailed steps.
+  </div>
+  
+</section>
 
     <!-- - - - - - - - - SettingsLock interface - - - - - - - - - - - -->
 
@@ -253,9 +279,9 @@ Style guide to contributors:
 
     <dt>DOMRequest set()</dt> <dd>Allows to change the values of a set of settings. This method is asychronous and return a <code>DOMRequest</code>.
         <dl class='parameters'>
-             <dt>DOMString[] settings</dt>
+             <dt>SettingsEvent[] settings</dt>
              <dd>
-               The identifier of thecontaining a set of key/value pairs where each key represents the string name of a given setting
+               The identifier of the containing a set of key/value pairs where each key represents the string name of a given setting
              </dd>
          </dl>
         </dd>
@@ -264,7 +290,7 @@ Style guide to contributors:
 	        <dl class='parameters'>
              <dt>DOMString settingName</dt>
              <dd>
-               The string name of the setting whose value you wish to retreive
+               The name of the setting whose value you wish to retreive
              </dd>
          </dl>
         </dd>
@@ -277,98 +303,143 @@ Style guide to contributors:
         </dt>
         <dd>Indicates if the lock is no longer the active lock (true) or if it's still the active lock (false)</dd>
     </dl> 
+    
+  <section>
+  <h3>Steps</h3>
+  
+  <p> The <dfn><code>set</code></dfn> method when invoked MUST run the
+  following steps:
+    <ol>
+	<li>@@TBD
+	</ol>
+
+  <p> The <dfn><code>get</code></dfn> method when invoked MUST run the
+  following steps:
+    <ol>
+	<li>@@TBD
+	</ol>
+
  	</section>
 
-    <!-- - - - - - - - - SettingsEvent interface - - - - - - - - - - - -->
+  <div class='note'>
+  It needs the descrition of detailed steps.
+  </div>
 
-  <section>
+</section>
+
+
+    <!-- - - - - - - - - SettingsEvent interface - - - - - - - - - - - -->
+ 
+<section> 
   <h2><a>SettingsEvent</a> Interface</h2>
   <p>The <a>SettingsEvent</a> interface represents events 
-  	providing information about a change to the value of a setting on the device.</p>
+  	providing information about a change to the value of a setting on the device.
 
   <dl title="interface SettingsEvent : Event"  class="idl">
-  </dl> 
-  
-  <dl>
-  	<dt>DOMString settingName</dt>
-	<dd>MUST specifie the exact name of the setting that has changed.</dd>
- 	<dt>DOMString settingValue</dt>
+  	<dt>attribute DOMString settingName</dt>
+  	<dd>MUST specifie the exact name of the setting that has changed.</dd>
+ 	<dt>attribute DOMString settingValue</dt>
  	<dd>MUST return the setting's new value.</dd>
     </dl>
    </section>
 
-    <!-- - - - - - - - - SettingsGlobal interface - - - - - - - - - - - -->
+<!-- - - - - - - - - - - - Interface Enumerations  - - - - - - - - - - - - - -->
+  <section>
+    <h2>Enumerations</h2>
 
-	<section>
-  		<h2><a>SettingsGlobal</a> Interface</h2>
-  		<p>The <a>SettingsGlobal</a> interface represents the Global system settings, 
-  			containing preferences that always apply identically to all defined users. 
-  			Applications can read these but are not allowed to write; like the "Secure" settings, 
-  			these are for preferences that the user must explicitly modify through the system UI or 
-  			specialized APIs for those values.
-		</p>  
- 		
- 	</section>
+    <p>The <code>settings</code> in an <code>SettingsLock</code> can have
+    the following values:
+    <dl class="idl" title="enum settings">
+          <dt>alarm.enabled</dt>
+          <dd>
+              Type is Boolean. Default value is false. 
+          </dd>
+          <dt>audio.volume.alarm</dt>
+          <dd>
+              Type is Number. Default value is 15. 
+          </dd>
+          <dt>audio.volume.notification</dt>
+          <dd>
+              Type is Number. Default value is 15. 
+          </dd>
+          <dt>audio.volume.telephony</dt>
+          <dd>
+              Type is Number. Default value is 5. 
+          </dd>
+          <dt>bluetooth.enabled</dt>
+          <dd>
+              Type is Boolean. Default value is false. 
+          </dd>
+          <dt>geolocation.enabled</dt>
+          <dd>
+              Type is Boolean. Default value is true. 
+          </dd>
+          <dt>language.current</dt>
+          <dd>
+              Type is String. Default value is 'en-US'. 
+          </dd>          
+          <dt>lockscreen.passcode-lock.code</dt>
+          <dd>
+              Type is String. Default value is '0000'. 
+          </dd>          
+          <dt>lockscreen.passcode-lock.enabled</dt>
+          <dd>
+              Type is Boolean. Default value is false. 
+          </dd>          
+          <dt>lockscreen.notifications-preview.enabled</dt>
+          <dd>
+              Type is Boolean. Default value is true. 
+          </dd>          
+          <dt>lockscreen.enabled</dt>
+          <dd>
+              Type is Boolean. Default value is true. 
+          </dd>          
+          <dt>lockscreen.locked</dt>
+          <dd>
+              Type is Boolean. Default value is true. 
+          </dd>          
+          <dt>lockscreen.unlock-sound.enabled</dt>
+          <dd>
+              Type is Boolean. Default value is false. 
+          </dd>          
+          <dt>mail.sent-sound.enabled</dt>
+          <dd>
+              Type is Boolean. Default value is true. 
+          </dd>          
+          <dt>message.sent-sound.enabled</dt>
+          <dd>
+              Type is Boolean. Default value is true. 
+          </dd>          
+          <dt>powersave.enabled</dt>
+          <dd>
+              Type is Boolean. Default value is false. 
+          </dd>          
+          <dt>ring.enabled</dt>
+          <dd>
+              Type is Boolean. Default value is true. 
+          </dd>         
+          <dt>screen.automatic-brightness</dt>
+          <dd>
+              Type is Boolean. Default value is true. 
+          </dd>         
+          <dt>screen.brightness</dt>
+          <dd>
+              Type is Number. Default value is 1. 
+          </dd>         
+          <dt>vibration.enabled</dt>
+          <dd>
+              Type is Boolean. Default value is true. 
+          </dd>         
+          <dt>wifi.enabled</dt>
+          <dd>
+              Type is Boolean. Default value is true. 
+          </dd>         
+    </dl>
 
+  <div class='note'>
+It needs the clarification of system setting type. (e.g: <a href="https://developer.mozilla.org/en-US/docs/Mozilla/Firefox_OS/Platform/Settings_list">Firefox's setting list</a>, <a href="http://developer.android.com/reference/android/provider/Settings.System.html">Android's setting list</a>...)
+  </div>
 
-    <!-- - - - - - - - - SettingsSecure interface - - - - - - - - - - - -->
-
-	<section>
-  		<h2><a>SettingsSecure</a> Interface</h2>
-  		<p>The <a>SettingsSecure</a> interface represents the Secure system settings, 
-  			containing system preferences that applications can read but are not allowed to write. 
-  			These are for preferences that the user must explicitly modify through the system UI or 
-  			specialized APIs for those values, not modified directly by applications.
-       </p>
- 		
- 	</section>
-
-    <!-- - - - - - - - - SettingsSystem interface - - - - - - - - - - - -->
-
-	<section>
-  		<h2><a>SettingsSystem</a> Interface</h2>
-
-  		<p>The <a>SettingsSystem</a> interface represents the System settings, 
-  			containing miscellaneous system preferences. This table holds simple name/value pairs. 
-  			There are convenience functions for accessing individual settings entries.
- 		</p>
- 		
- 	</section>    
-    
-    <!-- - - - - - - - - SettingsChangeEvent Interface - - - - - - - - - - - -->
-    <section>
-      <h2><a>SettingsChangeEvent</a> Interface</h2>
-      <p>The <a>SettingsChangeEvent</a> interface represents events related to
-      the set of system preference that have been simultaneously setted, resetted and/or
-      modified. Changes that are applied to the system information in batches cause a
-      <a>SettingsChangeEvent</a> with multiple system preference references to be fired,
-      whereas changes applied sequentially cause a <a>SettingsChangeEvent</a>
-      with a single system preference reference to be fired
-      <dl title="[Constructor(DOMString type, optional SettingsChangeEventInit
-      eventInitDict)]
-                 interface SettingsChangeEvent : Event"
-          class="idl">
-        <dt>readonly attribute DOMString[] setted</dt>
-        <dd>Indicates the identifier(s) of the <code>SystemPreference</code> object(s)
-        that have been setted.</dd>
-        <dt>readonly attribute DOMString[] modified</dt>
-        <dd>Indicates the identifier(s) of the <code>SystemPreference</code> object(s)
-        that have been modified.</dd>
-        <dt>readonly attribute DOMString[] resetted</dt>
-        <dd>Indicates the identifier(s) of the <code>SystemPreference</code> object(s)
-        that have been resetted.</dd>
-      </dl>
-
-      <section> <h3><a>SettingsChangeEventInit</a> Dictionary</h3>
-      <dl title="dictionary SettingsChangeEventInit : EventInit" class="idl">
-        <dt>sequence&lt;DOMString&gt; setted</dt>
-        <dd>
-        <dt>sequence&lt;DOMString&gt; modified</dt>
-        <dd>
-        <dt>sequence&lt;DOMString&gt; resetted</dt>
-        <dd>
-      </dl>
-      </section>
     </section>
 
     <!-- - - - - - - - - Acknowledgements - - - - - - - - - - - - - - - - - -->
@@ -376,8 +447,8 @@ Style guide to contributors:
       <h2>Acknowledgements</h2>
       <p>The editors would like to express their gratitude to the Mozilla B2G
       Team for their technical guidance, implementation work and support, and
-      specially to Tantek Çelik and Gregor Wagner, the original authors of B2G
-      Contact API.</p>
+      specially to Jonas Sicking and Mounir Lamouri, the original authors of B2G
+      System Setting API.</p>
     </section>
     
   </body>

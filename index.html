@@ -24,14 +24,47 @@
           ],
           inlineCSS:    true,
           noIDLIn:      true,
+          noIDLSorting: true,
           extraCSS:     ["../ReSpec.js/css/respec.css"],
           wg:           "System Applications Working Group",
           wgURI:        "http://www.w3.org/2012/sysapps/",
           wgPublicList: "public-sysapps",
           wgPatentURI:  "http://www.w3.org/2004/01/pp-impl/43696/status",
-      };
+           otherLinks: [{
+            key: "Repository",
+            data: [{
+                    value: "We are on Github.",
+                    href: "https://github.com/hollobit/Settings"
+                }, {
+                    value: "File a bug.",
+                    href: "https://github.com/hollobit/Settings/issues"
+                }, {
+                    value: "Commit history.",
+                    href: "https://github.com/hollobit/Settings/commits/gh-pages"
+                }
+            ]
+        }
+    ]
+     };
     </script>
   </head>
+  
+  <!-----------------------------------------------------------------------------
+Style guide to contributors:
+============================
+- this document uses ReSpec, see
+  http://dev.w3.org/2009/dap/ReSpec.js/documentation.html
+- use 80 characters wide lines, whenever possible (except long links)
+- keep sections 2 empty lines apart
+- put comments in front of sections, for better readability with syntax coloring
+  editors
+- use indentation with care: it may improve readability, but at the expense of
+  line lenght
+- when descriptions of attributes is short, use the <dd> elements even when
+  the text also contains conformance statements (e.g. MUST, SHOULD, MAY).
+  No use repeating the same information in a separate paragraph.
+------------------------------------------------------------------------------>
+
   <body>
 
     <!-- - - - - - - - - - - - - - -  Abstract - - - - - - - - - - - - - - - -->
@@ -47,7 +80,7 @@
       the global system-level device preferences and settings. 
       
       <p>If you find any issue with this specification, please
-         <a href="https://github.com/sysapps/settings-api/issues">file a
+         <a href="https://github.com/hollobit/Settings/issues">file a
          bug on Github</a>.
 
     </section>
@@ -59,7 +92,7 @@
         The Settings API allows to manage (create, edit, remove, etc) the global system-level device preferences
         stored in the system information area, and thus provides the
         functionality needed to implement an certified application to manage said system settings.
-      <p>
+      </p>
         An example of use is provided below:
       
       <pre class="example highlight">
@@ -97,12 +130,12 @@
     <section id="conformance">
       <p>This specification defines conformance criteria that apply to a single
       product: the <dfn>user agent</dfn> that implements the interfaces that it
-      contains.
+    contains.</p>
       
       <p>Implementations that use ECMAScript to implement the APIs defined in
       this specification MUST implement them in a manner consistent with the
       ECMAScript Bindings defined in the Web IDL specification [[!WEBIDL]], as
-      this specification uses that specification and terminology.
+    this specification uses that specification and terminology. </p>
     </section>
     
     <!-- - - - - - - - - - - - - -  Terminology  - - - - - - - - - - - - - - -->
@@ -140,7 +173,7 @@
     <!-- - - - - - - - - - - - - - Security  - - - - - - - - - - - - - - - - -->
     <section>
       <h2>Security and privacy considerations</h2>
-      <p>This API must be only exposed to trusted content
+      <p>This API must be only exposed to trusted content</p>
       
     </section>
 
@@ -170,6 +203,7 @@
     to allows to bind a function to any change on a given settings by 
     <code>settingName</code> parameter and according to the callback options
     described in the <code>callback</code>.
+    
           <dl class='parameters'>
          <dt>String settingName</dt> <dd>
           A string specifying the name of the setting to observe.  
@@ -198,7 +232,6 @@
         <dd>May be used to set an event handler to be called when all setting changes.</dd>
     
       </dl>
-
     </section>
 
     <!-- - - - - - - - - SettingsLock interface - - - - - - - - - - - -->
@@ -243,23 +276,26 @@
           attribute EventHandler closed
         </dt>
         <dd>Indicates if the lock is no longer the active lock (true) or if it's still the active lock (false)</dd>
-	
+    </dl> 
  	</section>
 
     <!-- - - - - - - - - SettingsEvent interface - - - - - - - - - - - -->
 
-<section>
+  <section>
   <h2><a>SettingsEvent</a> Interface</h2>
   <p>The <a>SettingsEvent</a> interface represents events 
-  	 providing information about a change to the value of a setting on the device.
-  <dl title="interface SettingsEvent : Event"
-      class="idl">
-    <dt>DOMString settingName</dt>
-    <dd>MUST specifie the exact name of the setting that has changed.</dd>
-    <dt> DOMString settingValue</dt>
-    <dd>MUST return the setting's new value.</dd>
-  </dl>
-</section>
+  	providing information about a change to the value of a setting on the device.</p>
+
+  <dl title="interface SettingsEvent : Event"  class="idl">
+  </dl> 
+  
+  <dl>
+  	<dt>DOMString settingName</dt>
+	<dd>MUST specifie the exact name of the setting that has changed.</dd>
+ 	<dt>DOMString settingValue</dt>
+ 	<dd>MUST return the setting's new value.</dd>
+    </dl>
+   </section>
 
     <!-- - - - - - - - - SettingsGlobal interface - - - - - - - - - - - -->
 
